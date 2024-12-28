@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id = "navbar">
+        <nav>
+            <a href="./index.html">Home</a>
+            <a href="./admin.html">Admin</a>
+            <a href="./books.html">Books</a>
+        </nav>
+    </div>
+    <br>
+    <form id="form">
+        <label for="email">Email: </label>
+        <input id="email" type="email" placeholder="Write Email">
+
+        <label for="password">Password: </label>
+        <input id="password" type="password" placeholder="Write Password">
+
+        <button type="submit" id="btn">Login</button>
+    </form>
+</body>
+<script src="./admin.html" type="module">
+
+    let email = document.getElementById("email");
+    let password = document.getElementById("password");
+    let button = document.getElementById("btn");
+
+    button.addEventListener("click", () => {
+        if (email.value === "admin@empher.com" && password.value === "empher@123"){
+            console.log(alert("Logged in as Admin."))
+            window.open("./admin.html")
+        }
+        else if (email.value === "user@empher.com" && password.value === "user@123"){
+            window.open("./books.html")
+        }
+        else {
+            console.log(alert("Invalid Credentials."))
+        }
+    })
+
+    let data = {
+        email,
+        password
+    }
+    let loginData = JSON.stringify(data);
+    console.log(loginData)
+
+</script>
+</html>

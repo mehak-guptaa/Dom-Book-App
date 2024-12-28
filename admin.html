@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <nav>
+            <a href="./index.html">Home</a>
+            <a href="./admin.html">Admin</a>
+            <a href="./books.html">Books</a>
+        </nav>
+    </div><br>
+    <form id=" newBooks">
+        <label for="title">Title of the Book: </label>
+        <input id="title" type="text" placeholder="Write title of the book"><br>
+        <br>
+        <label for="author">Author Name: </label>
+        <input id="author" type="text" placeholder="Write Author Name"><br>
+        <br>
+        <label for="category">Category of the Book: </label>
+        <select id="category">
+            <option value="selectCategory" selected>Select the Category of the Book </option>
+            <option value="fiction">Fiction</option>
+            <option value="comedy">Comedy</option>
+            <option value="technical">Technical</option>
+        </select>
+        <button type="submit" id="btn2">Add Book</button>
+    </form>
+
+    <div id="cont">
+
+    </div>
+</body>
+<script src="./index.html">
+
+    postData()
+
+    let button2 = document.getElementById("btn2");
+    let title = title.value;
+    let author = author.value;
+    let category = category.value;
+
+
+    let dataObj = {
+        title,
+        author,
+        category,
+        isAvailable : true,
+        isVerified: false,
+        borrowedDays: null,
+        imageUrl: "https://m.media-amazon.com/images/I/71ZB18P3inL._SY522_.jpg"
+    }
+
+    button2.addEventListener("click", () => {
+        async function postData() {
+    try{
+        let res= await fetch("https://feline-fossil-verse.glitch.me/books", {
+            method:"POST",
+            headers: {
+                "content-type":"application/json"
+            },
+            body: JSON.stringify(dataObj)
+        }) 
+        alert("Book Added Successfully.")
+    } catch(err) {
+        console.log("Sorry. Could not add the Book.")
+    }
+}
+newBooks.reset()
+    })
+
+    let booksToDisplay = [];
+    window.onloadeddata= async function() {
+        let res = await fetch("https://feline-fossil-verse.glitch.me/books");
+        booksToDisplay = [...res];
+    }
+
+    displayData(booksToDisplay)
+
+    function displayData(arr){
+        let cont = document.getElementById("cont");
+        cont.innerHTML = "";
+
+        let displayArr = arr.map((element , index) => {
+            let card = `<div>
+                <img src= ${element.image}>
+                <h4>Book Title: ${element.title}</h4>
+                <h6>Book Category: ${element.category}</h6>
+                <h4>Availability Status: ${element.isAvailable}</h4>
+                <h4>Borrowed Days: ${element.borrowedDays}</h4>
+                <button id="verify" type="submit">Verify Book</button>
+                <button id="delete" type="submit">Delete Book</button>
+                </div>`
+        return card
+        })
+        console.log(displayArr)
+        cont.innerHTML = displayArr.join(" ")
+    }
+
+
+</script>
+</html>
